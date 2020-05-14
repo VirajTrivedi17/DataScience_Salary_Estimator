@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """
 Created on Sat May  9 09:17:25 2020
@@ -64,6 +65,41 @@ df.spark.value_counts()
 
 df["aws"] = df["Job Description"].apply(lambda x : 1 if 'aws' in x.lower() else 0)
 df.aws.value_counts()
+
+#Creating function for job title and position level
+
+def simplified_title(title):
+    if "data scientist" in title.lower():
+        return "data scientist"
+    elif "data engineer" in title.lower():
+        return "data engineer"
+    elif "machine learning" in title.lower():
+        return "machine learning"
+    elif "analyst" in title.lower():
+        return "analyst"
+    elif "manager" in title.lower():
+        return "manager"
+    elif "director" in title.lower():
+        return "director"
+    else:
+        return "nan"
+    
+def position_level(title):
+    if 'sr' in title.lower() or 'senior' in title.lower() or 'sr' in title.lower() or 'lead' in title.lower() or 'principal' in title.lower():
+            return 'senior'
+    elif 'jr' in title.lower() or 'jr.' in title.lower():
+        return 'jr'
+    else:
+        return 'na'
+        
+    
+df["simplified_job"] = df["Job Title"].apply(simplified_title)
+df.simplified_job.value_counts()
+
+
+df["position_level"] = df["Job Title"].apply(position_level)
+df.position_level.value_counts()
+
 
 df["Rstudio"] = df["Job Description"].apply(lambda x : 1 if 'r studio' in x.lower() or "r-studio" else 0)
 df.Rstudio.value_counts()
